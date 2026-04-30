@@ -1,0 +1,1 @@
+"Para explicarlo simple: @Bean es un método que sirve como fábrica. Yo escribo el código para crear e inicializar un objeto complejo, y al ponerle @Bean, Spring lo guarda en su contenedor. Así, cualquier otra parte de mi app puede usar ese objeto ya configurado simplemente pidiéndolo con @Autowired".
