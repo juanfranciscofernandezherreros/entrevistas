@@ -54,3 +54,11 @@ Desacoplamiento: Las clases no dependen de implementaciones específicas.
 Facilidad de Testing: Como vimos antes con los modificadores de acceso, es mucho más fácil pasarle un "Mock" (un objeto de mentira) a una clase si esta no crea sus propios objetos con new.
 
 Código más limpio: Te olvidas de configurar manualmente objetos complejos; Spring lo hace por ti basándose en tus anotaciones (@Bean, @Component).
+
+
+Ventajas de usar IoC
+Desacoplamiento: Las clases no dependen de implementaciones específicas.
+
+Facilidad de Testing: Como vimos antes con los modificadores de acceso, es mucho más fácil pasarle un "Mock" (un objeto de mentira) a una clase si esta no crea sus propios objetos con new.
+
+Código más limpio: Te olvidas de configurar manualmente objetos complejos; Spring lo hace por ti basándose en tus anotaciones (@Bean, @Component).
