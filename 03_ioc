@@ -1,0 +1,56 @@
+IoC (Inversion of Control o Inversión de Control) es el concepto fundamental que hace que Spring sea lo que es. En programación tradicional, tú tienes el control; con IoC, el framework toma el control.
+
+Para entenderlo, imagina la diferencia entre cocinar en casa o ir a un restaurante:
+
+Control Tradicional (Cocinar en casa): Tú decides qué ingredientes comprar, en qué orden cortarlos, qué sartén usar y cuándo encender el fuego. Tú gestionas todo el proceso y las herramientas.
+
+IoC (Restaurante): Tú solo pides el plato (el objeto). No te importa quién compró la sartén ni quién cortó la cebolla. El restaurante (Spring) se encarga de todo el proceso de preparación y te entrega el resultado final listo para usar.
+
+¿Qué se "Invierte" exactamente?
+En el desarrollo de software, lo que se invierte es el flujo de creación de dependencias:
+
+Sin IoC: La Clase A crea manualmente una instancia de la Clase B usando new B(). La Clase A es responsable del ciclo de vida de la Clase B.
+
+Con IoC: La Clase A simplemente dice: "Necesito algo que sea de tipo B". Spring busca ese objeto en su contenedor y se lo entrega a la Clase A. El control de crear el objeto ha pasado de la clase al contenedor.
+
+Los 3 pilares del IoC en Spring
+Para que la Inversión de Control funcione, Spring utiliza tres piezas clave:
+
+El Contenedor de IoC: Es el cerebro (ApplicationContext). Es donde se guardan todos los objetos de tu aplicación.
+
+Beans: Son simplemente los objetos que viven dentro del contenedor. Son los "platos" que el restaurante tiene listos.
+
+Dependency Injection (DI): Es el mecanismo práctico para aplicar IoC. Es el acto de "inyectar" (pasar) un objeto dentro de otro (normalmente mediante @Autowired).
+
+Ejemplo de Código: Antes vs. Después
+Sin IoC (Tú tienes el control)
+Aquí, si quieres cambiar MySQL por PostgreSQL, tienes que modificar el código de la clase UsuarioService. Está "acoplado".
+
+Java
+public class UsuarioService {
+    private MySQLRepository repositorio = new MySQLRepository(); // Tú creas la dependencia
+    
+    public void guardar() {
+        repositorio.save();
+    }
+}
+Con IoC (Spring tiene el control)
+Aquí, UsuarioService no sabe quién crea el repositorio. Solo sabe que necesita uno.
+
+Java
+@Service
+public class UsuarioService {
+    
+    @Autowired // Inyección de Dependencia: Spring busca el bean y lo pone aquí
+    private DatosRepository repositorio; 
+    
+    public void guardar() {
+        repositorio.save();
+    }
+}
+Ventajas de usar IoC
+Desacoplamiento: Las clases no dependen de implementaciones específicas.
+
+Facilidad de Testing: Como vimos antes con los modificadores de acceso, es mucho más fácil pasarle un "Mock" (un objeto de mentira) a una clase si esta no crea sus propios objetos con new.
+
+Código más limpio: Te olvidas de configurar manualmente objetos complejos; Spring lo hace por ti basándose en tus anotaciones (@Bean, @Component).
