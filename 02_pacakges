@@ -1,0 +1,42 @@
+Modificador,Clase,Paquete,Subclase (Herencia),Mundo (Global)
+public,Sí,Sí,Sí,Sí
+protected,Sí,Sí,Sí,No
+Default (Package),Sí,Sí,No,No
+private,Sí,No,No,No
+
+1. public (Acceso Total)
+Cualquier clase en cualquier paquete puede acceder a este miembro. Se usa para la API pública de tu código (lo que quieres que otros usen).
+
+Uso: Métodos de servicio, constantes globales.
+
+2. protected (Acceso por Herencia)
+Es un nivel intermedio. Permite el acceso a clases dentro del mismo paquete y a cualquier subclase (hija), incluso si esa subclase está en un paquete diferente.
+
+Uso: Cuando quieres que los hijos de una clase puedan modificar o usar algo del padre, pero el resto del mundo no.
+
+3. Default / Package-Private (Sin palabra clave)
+Si no escribes nada antes de la variable o método, Java aplica este nivel por defecto. Solo es visible para clases que están en el mismo paquete.
+
+Uso: Para encapsular lógica que solo le concierne a un módulo o carpeta específica de tu proyecto.
+
+4. private (Acceso Restringido)
+El miembro solo es accesible dentro de la misma clase donde fue declarado. Ni siquiera las subclases pueden verlo.
+
+Uso: Es el pilar del encapsulamiento. Se usa para proteger los datos (atributos) y que solo se modifiquen mediante métodos controlados (Getters/Setters).
+
+Ejemplo Visual de Código
+Java
+package com.ejemplo.p1;
+
+public class Padre {
+    public String publico = "Visible en todo el proyecto";
+    protected String protegido = "Visible en p1 y para mis hijos en otros paquetes";
+    String paquete = "Solo visible dentro de com.ejemplo.p1";
+    private String privado = "Solo yo (clase Padre) puedo verlo";
+
+    public void mostrar() {
+        System.out.println(privado); // Esto funciona aquí mismo
+    }
+}
+Regla de Oro
+Siempre empieza con el nivel más restrictivo (private) y ve abriendo el acceso solo si es estrictamente necesario. Esto evita que tu código se vuelva un caos difícil de mantener.
