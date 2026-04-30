@@ -64,3 +64,12 @@ void testPublico() {
     assertEquals(12.1, calc.calcularInteres(100)); 
 }
 B. Testeando protected y Package (El truco del paquete)Si tu clase de test está en el mismo paquete (com.app.service) que la clase original, puedes testear métodos protected o sin modificador (package-private) directamente. Esto es muy útil para probar lógica interna que no quieres exponer al mundo entero, pero que es demasiado compleja para dejarla sin testear.C. El dilema del privateRegla de oro: No se deben testear métodos privados directamente.Por qué: El método privado es un detalle de implementación. Si testeas el método public, ya estás testeando indirectamente el private que este utiliza.Si sientes que "necesitas" testear un privado: Probablemente ese método es tan complejo que debería estar en su propia clase como un método público de un servicio aparte.Resumen de visibilidad en TestsModificador¿Accesible desde el Test?EstrategiapublicSíDirectamente desde cualquier lugar.protectedSí*Solo si el Test está en el mismo paquete.packageSí*Solo si el Test está en el mismo paquete.privateNoSe testea indirectamente a través de los métodos públicos.
+
+Ejemplo de Estructura en Linux/Proyecto Estándar
+Para que los métodos protected y de paquete funcionen en tus tests, tu estructura de archivos debe verse así:
+
+Bash
+src/
+├── main/java/com/app/service/CalculadoraFinanciera.java  # Clase original
+└── test/java/com/app/service/CalculadoraFinancieraTest.java # Clase de Test
+Al compartir el mismo nombre de paquete (com.app.service), Java permite que el test "vea" todo excepto lo estrictamente private.
