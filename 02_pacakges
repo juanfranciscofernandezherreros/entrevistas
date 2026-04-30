@@ -40,3 +40,27 @@ public class Padre {
 }
 Regla de Oro
 Siempre empieza con el nivel más restrictivo (private) y ve abriendo el acceso solo si es estrictamente necesario. Esto evita que tu código se vuelva un caos difícil de mantener.
+
+En los tests unitarios, entender los modificadores de acceso es crucial porque determinan qué puedes "tocar" desde tu clase de prueba. El objetivo de un test unitario es verificar el comportamiento público de una clase sin romper su encapsulamiento.Aquí tienes cómo influye cada uno al momento de testear:1. El escenario: La clase a probarImagina esta clase en el paquete src/main/java/com/app/service:Javapackage com.app.service;
+
+public class CalculadoraFinanciera {
+    
+    public double calcularInteres(double monto) { 
+        return aplicarImpuestoPrivado(monto * 0.10); 
+    }
+
+    protected double aplicarDescuentoSocio(double monto) {
+        return monto * 0.90;
+    }
+
+    private double aplicarImpuestoPrivado(double monto) {
+        return monto * 1.21;
+    }
+}
+2. ¿Cómo acceder desde el Test?Para que los tests sean efectivos, la convención en Java (y Linux/Maven/Gradle) es que el test esté en el mismo paquete pero en una carpeta distinta (src/test/java/com/app/service).A. Testeando publicEs lo más sencillo. Al ser público, cualquier test puede acceder a él.Java@Test
+void testPublico() {
+    CalculadoraFinanciera calc = new CalculadoraFinanciera();
+    // Acceso total
+    assertEquals(12.1, calc.calcularInteres(100)); 
+}
+B. Testeando protected y Package (El truco del paquete)Si tu clase de test está en el mismo paquete (com.app.service) que la clase original, puedes testear métodos protected o sin modificador (package-private) directamente. Esto es muy útil para probar lógica interna que no quieres exponer al mundo entero, pero que es demasiado compleja para dejarla sin testear.C. El dilema del privateRegla de oro: No se deben testear métodos privados directamente.Por qué: El método privado es un detalle de implementación. Si testeas el método public, ya estás testeando indirectamente el private que este utiliza.Si sientes que "necesitas" testear un privado: Probablemente ese método es tan complejo que debería estar en su propia clase como un método público de un servicio aparte.Resumen de visibilidad en TestsModificador¿Accesible desde el Test?EstrategiapublicSíDirectamente desde cualquier lugar.protectedSí*Solo si el Test está en el mismo paquete.packageSí*Solo si el Test está en el mismo paquete.privateNoSe testea indirectamente a través de los métodos públicos.
