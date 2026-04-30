@@ -32,3 +32,32 @@ Lo que buscan: Que sepas que, gracias a CGLIB (si usas @Configuration), Spring i
 ¿Para qué sirve el atributo name en la anotación @Bean?
 
 Lo que buscan: Que expliques que sirve para identificar el bean si tienes varios del mismo tipo, evitando conflictos de ambigüedad.
+
+1. El Ejemplo de Código
+Aquí creamos un "Cliente de Almacenamiento" que requiere una clave y una ruta específica:
+
+Java
+// 1. La clase de configuración (El taller)
+@Configuration
+public class AlmacenamientoConfig {
+
+    // 2. El método @Bean (La receta de fabricación)
+    @Bean
+    public ClienteAlmacenamiento clienteDeFotos() {
+        // Aquí personalizamos el objeto antes de que Spring lo guarde
+        ClienteAlmacenamiento cliente = new ClienteAlmacenamiento();
+        cliente.setRuta("/usuarios/fotos");
+        cliente.setApiKey("SECURE_123");
+        return cliente; 
+    }
+}
+Ahora, en cualquier otra parte de tu app (un Controller o un Service), simplemente lo pides:
+
+Java
+@Service
+public class PerfilService {
+    @Autowired
+    private ClienteAlmacenamiento clienteDeFotos; // Spring te entrega el que configuraste arriba
+}
+2. ¿Por qué usar @Configuration? (La razón técnica)
+Esta es la parte que te hará destacar en la entrevista. Podrías poner un @Bean en cualquier clase (como un @Component), pero DEBES usar @Configuration por una razón clave: La garantía del Singleton.
